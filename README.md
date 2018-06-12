@@ -39,7 +39,7 @@ Parameters:
   -r  | --repo      : Git repo URL.
   -b  | --branch    : Git branch [default: master]
   -c  | --commit    : Git commit [default: HEAD].
-  -gd | --git-depth : Git depth  [default: unlimited].
+  -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
   -s  | --secret    : Vault path (include backend en key to retrieve).
