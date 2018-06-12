@@ -97,7 +97,10 @@ func (config *Config) importValues() error {
 func (config *Config) readCliParams() (error, bool) {
 	// Handle early exits
 	switch {
-	case help == true:
+	case flag.NFlag() == 0:
+		flag.Usage()
+		return errors.New("No parameters supplied."), false
+ 	case help == true:
 		flag.Usage()
 		return nil, true
 	case progVersion == true:
