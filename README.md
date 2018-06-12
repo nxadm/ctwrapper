@@ -45,7 +45,7 @@ Parameters:
   -vp | --vault-path: Vault path (include backend).
   -vk | --vault-key : Vault key.
   -d  | --dir       : Directory with templates [default: . ].
-  -e  | --ext       : Template extension [defaul: tmpl].
+  -e  | --ext       : Template extension [defaul: .tmpl].
   -o  | --ct-opt    : Extra options to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.

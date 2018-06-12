@@ -10,7 +10,7 @@ import (
 const author = "Claudio Ramirez <pub.claudio@gmail.com>"
 const version = "v0.1.0"
 const website = "https://github.com/nxadm/ctwrapper"
-const defaultExt = "tmpl"
+const defaultExt = ".tmpl"
 const defaultBranch = "master"
 const defaultCommit = "HEAD"
 const defaultDepth = 0 // disable
