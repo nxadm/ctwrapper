@@ -4,6 +4,7 @@ APP=ctwrapper
 BIN_DIR=/var/tmp/$APP
 BASE_NAME="$BIN_DIR/$APP"
 PLATFORMS=("windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/amd64" "linux/386")
+SRC_DIR=$(pwd)
 
 function build {
     GOOS=$1
@@ -15,6 +16,7 @@ function build {
     GOOS=$GOOS GOARCH=$GOARCH go build -o $OUTPUT
     cd $BIN_DIR
     sha512sum $OUTPUT > $OUTPUT.sha512
+    cd $SRC_DIR
 }
 
 mkdir -p $BIN_DIR
