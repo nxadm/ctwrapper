@@ -50,9 +50,15 @@ Parameters:
   -v  | --version   : Version message.
 
 Examples:
-  ctwrapper -r https://github.com/nxadm/ctwrapper.git
+  ctwrapper -d 10 -r https://github.com/nxadm/ctwrapper.git
   ctwrapper -r https://github.com/nxadm/ctwrapper.git \ 
       -s "secret/production/third-party/repo-password"
   ctwrapper -r https://github.com/nxadm/ctwrapper.git \
         -o "-vault-addr 'https://10.5.32.5:8200' -exec '/sbin/my-server'"
 ```
+
+You may want to set the depth to a low number (e.g.) in order not to 
+unecessarely retrieve the complete history of the repo. The `--commit` and 
+`--git-depth` options were included in order to prevent a race condition 
+between CI systems and git commits. If your setup ensures that the specified
+commit is the last one, you can set `--git-depth` to 1.
