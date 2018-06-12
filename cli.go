@@ -18,7 +18,7 @@ Usage:
   vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
                 [-u <user>] [-p <password> | -vp <path> -vk <key>]
                 [-d <dir>] [-e <extension>] 
-                [-o <options>]  
+                [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
   vault-wrapper [-v]
 
@@ -33,7 +33,7 @@ Parameters:
   -vk | --vault-key : Vault key.
   -d  | --dir       : Directory with templates [default: . ].
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
-  -o  | --ct-opt    : Extra options to pass to consul-template.
+  -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.
 `
