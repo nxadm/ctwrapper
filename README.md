@@ -29,7 +29,7 @@ PATH or in the working directory.
 ```
 Usage:
   vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
-                [-u <user>] [-p <password> | -vp <path> -vk <key>]
+                [-u <user>] [-p <password> | -s <vault path/key>]
                 [-d <dir>] [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -42,8 +42,7 @@ Parameters:
   -gd | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
-  -vp | --vault-path: Vault path (include backend).
-  -vk | --vault-key : Vault key.
+  -s  | --secret    : Vault path (include backend en key to retrieve).
   -d  | --dir       : Directory with templates [default: . ].
   -e  | --ext       : Template extension [defaul: .tmpl].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
@@ -53,7 +52,7 @@ Parameters:
 Examples:
   ctwrapper -r https://github.com/nxadm/ctwrapper.git
   ctwrapper -r https://github.com/nxadm/ctwrapper.git \ 
-      -vp "secret/production/third-party" -kp "api-key"
+      -s "secret/production/third-party/repo-password"
   ctwrapper -r https://github.com/nxadm/ctwrapper.git \
         -o "-vault-addr 'https://10.5.32.5:8200' -exec '/sbin/my-server'"
 ```

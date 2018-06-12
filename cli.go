@@ -16,7 +16,7 @@ Author: ` + author + `
 
 Usage:
   vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
-                [-u <user>] [-p <password> | -vp <path> -vk <key>]
+                [-u <user>] [-p <password> | -s <vault path/key>]
                 [-d <dir>] [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -26,11 +26,10 @@ Parameters:
   -r  | --repo      : Git repo URL.
   -b  | --branch    : Git branch [default: ` + defaultBranch + `]
   -c  | --commit    : Git commit [default: ` + defaultCommit + `].
-  -gd | --git-depth : Git depth  [default: unlimited].
+  -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
-  -vp | --vault-path: Vault path (include backend).
-  -vk | --vault-key : Vault key.
+  -s  | --secret    : Vault path (include backend en key to retrieve).
   -d  | --dir       : Directory with templates [default: . ].
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
@@ -40,7 +39,7 @@ Parameters:
 
 // Define the flags
 var help, progVersion bool
-var repo, branch, commit, dir, ext, user, password, vaultPath, vaultKey, ctOpt string
+var repo, branch, commit, dir, ext, user, password, secret, ctOpt string
 var depth int
 
 type Config struct {
@@ -60,7 +59,7 @@ func init() {
 	flag.StringVar(&branch, "branch", defaultBranch, "")
 	flag.StringVar(&commit, "c", defaultCommit, "")
 	flag.StringVar(&commit, "commit", defaultCommit, "")
-	flag.IntVar(&depth, "gd", defaultDepth, "")
+	flag.IntVar(&depth, "g", defaultDepth, "")
 	flag.IntVar(&depth, "git-depth", defaultDepth, "")
 	flag.StringVar(&dir, "d", "", "")
 	flag.StringVar(&dir, "dir", "", "")
@@ -70,10 +69,8 @@ func init() {
 	flag.StringVar(&user, "user", "", "")
 	flag.StringVar(&password, "p", "", "")
 	flag.StringVar(&password, "password", "", "")
-	flag.StringVar(&vaultPath, "vp", "", "")
-	flag.StringVar(&vaultPath, "vault-path", "", "")
-	flag.StringVar(&vaultKey, "vk", "", "")
-	flag.StringVar(&vaultKey, "vault-key", "", "")
+	flag.StringVar(&secret, "s", "", "")
+	flag.StringVar(&secret, "secret", "", "")
 	flag.StringVar(&ctOpt, "o", "", "")
 	flag.StringVar(&ctOpt, "ct-opt", "", "")
 
@@ -122,7 +119,7 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// Retrieve Password
-	err := config.retrievePassword(user, password, vaultPath, vaultKey)
+	err := config.retrievePassword(user, password, secret)
 	if err != nil {
 		return err, false
 	}
@@ -131,7 +128,7 @@ func (config *Config) readCliParams() (error, bool) {
 	return config.verifyParams(), false
 }
 
-func (config *Config) retrievePassword(user, password, vaultPath, vaultKey string) error {
+func (config *Config) retrievePassword(user, password, secret string) error {
 	var err error
 	switch {
 	// Anonymous
@@ -140,17 +137,12 @@ func (config *Config) retrievePassword(user, password, vaultPath, vaultKey strin
 	case password != "":
 		config.Password = password
 	// Password from Vault
-	case vaultPath != "" && vaultKey != "":
-		secret, err := retrieveVaultSecret(vaultPath, vaultKey)
+	case secret != "":
+		secretFromVault, err := retrieveVaultSecret(secret)
 		if err != nil {
 			return err
 		}
-		config.Password = secret
-	// Error cases
-	case vaultPath != "":
-		return errors.New("vault-path is required when vault-key is used.")
-	case vaultKey != "":
-		return errors.New("vault-key is required when vault-path is used.")
+		config.Password = secretFromVault
 	}
 
 	return err
