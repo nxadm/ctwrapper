@@ -3,41 +3,51 @@
 ctwrapper is a small git wrapper to interface with Hashicorp's 
 [consul-template](https://github.com/hashicorp/consul-template).
 
-ctwrapper retrieves a git repository and passes all the templates it finds 
-as arguments to consul-template. Addionally other options can be passed for 
-consul-template (e.g. -exec).
+The use case for this tool is providing remote configuration and secrets to
+containers that require a more complex configuration. Many orchestrators and 
+tools, like Hashicorp's [nomad](https://github.com/hashicorp/nomad), 
+only provide mechanisms to provision containers with simple 1-file configuration 
+requirements, e.g. by the 
+[template stanza](https://www.nomadproject.io/docs/job-specification/template.html).
 
-HTTP(s) Basic Authentication is supported. The password can be retrieved from
-Hashicorp's [vault](https://github.com/hashicorp/vault) by using the standard
+As an alternative, ctwrapper retrieves a git repository with static files and
+templates used to create the configuration. The templates are passed as 
+arguments to consul-template that will create regular files after 
+injecting secrets. Options can be passed to consul-template, e.g. "-exec" to
+run the actual application.
+
+HTTP(s) Basic Authentication is supported for retrieving the git repo. The 
+password can be retrieved from Hashicorp's 
+[vault](https://github.com/hashicorp/vault) by using the standard
 VAULT_* environment values. If no authentication is provided, the repo will be 
 retrieved anonymously.
 
-consul-template 
-must be in the PATH or in the same directory as ctwrapper.
+ctwrapper, being a wrapper for consul-template, expects the latter to be in the
+PATH or in the working directory.
   
 ```
 Usage:
-  vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>]
-				[-u <user>] [-p <password>] 
-				[-vp <path> -vk <key>]
-				[-d <dir>] [-e <extension>] 
+  vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
+                [-u <user>] [-p <password> | -vp <path> -vk <key>]
+                [-d <dir>] [-e <extension>] 
                 [-o <options>]  
   vault-wrapper [-h]
   vault-wrapper [-v]
 
 Parameters:
-  -r  | --url        : Git repo URL.
-  -b  | --branch     : Git branch [default: master].
-  -c  | --commit     : Git commit [default: HEAD].
-  -u  | --user       : Git username.
-  -p  | --password   : Git password.
-  -vp | --vault-path : Vault path (include backend).
-  -vk | --vault-key  : Vault key.
-  -d  | --dir        : directory with templates [default: . ].
-  -e  | --ext        : template extension [default: templ].
-  -o  | --ct-opt     : extra options to pass to consul-template.
-  -h  | --help       : this help message.
-  -v  | --version    : version message.
+  -r  | --repo      : Git repo URL.
+  -b  | --branch    : Git branch [default: master]
+  -c  | --commit    : Git commit [default: HEAD].
+  -gd | --git-depth : Git depth  [default: unlimited].
+  -u  | --user      : Git username.
+  -p  | --password  : Git password.
+  -vp | --vault-path: Vault path (include backend).
+  -vk | --vault-key : Vault key.
+  -d  | --dir       : Directory with templates [default: . ].
+  -e  | --ext       : Template extension [defaul: tmpl].
+  -o  | --ct-opt    : Extra options to pass to consul-template.
+  -h  | --help      : This help message.
+  -v  | --version   : Version message.
 
 Examples:
   ctwrapper -r https://github.com/nxadm/ctwrapper.git
