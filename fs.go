@@ -8,7 +8,6 @@ import (
 
 func findConsulTemplate() (string, error) {
 	var executable string
-
 	switch {
 	// Look in current directory
 	case true:
@@ -25,9 +24,7 @@ func findConsulTemplate() (string, error) {
 	// Look in Path
 	default:
 		return exec.LookPath("consul-template")
-
 	}
-
 }
 
 func findTemplates(dir, ext string) ([]string, error) {
