@@ -13,6 +13,7 @@ function build {
         OUTPUT+='.exe'
     fi
     GOOS=$GOOS GOARCH=$GOARCH go build -o $OUTPUT
+    cd $BIN_DIR
     sha512sum $OUTPUT > $OUTPUT.sha512
 }
 
