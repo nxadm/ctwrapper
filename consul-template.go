@@ -20,6 +20,7 @@ func runCt(tmplExt string, files, options []string) error {
 	args := createTmplArg(files, tmplExt)
 	args = append(args, options...)
 	fmt.Printf("Executing: %s %s\n", ct, strings.Join(args, " "))
+
 	/* Execute the command */
 	switch {
 	// Windows does not really forks the process: we need a wrapper to write the stdOut end stdErr at the same time
