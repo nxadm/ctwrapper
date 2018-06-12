@@ -2,7 +2,7 @@ language: go
 go:
 - 1.10.x
 script: go test -v && go build
-before_deploy: "./create_binaries.sh"
+before_deploy: "./create_binaries.sh && ls -la /var/tmp/ctwrapper"
 deploy:
   provider: releases
   api_key:
