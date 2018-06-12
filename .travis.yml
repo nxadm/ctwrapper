@@ -9,6 +9,7 @@ deploy:
     secure: ShXqCUgsX1JAY/B4bIwpazZ6Am92J0AqP/8skU0Xeb+63hqUM5VKDxIIps3YlCBg6PEF5asRnqjqzOHJ0WzzbItwz1qJs9neSZUPapON0rFoDOD1toA8tYjKq+3JesmjxIW077O70AdjNfnaVrWgHxpzKXGpayQKI+LKvt7lZ8mhnaf2pt7cUdGD/swE7pj2I7OIrcoKvnOztQpgYio70jEdP9y5LDYX6pxH4dZienOeRVekUa8W53d5qxENeupuAlk4Sa8uC5Mp2/L/t9B3tGlHD8k2UPrTpcoVMaj5BgeDxwWCWwl67ejFXZQO3WjBnZl9WgfwXBrf66cHVnMrxIjGigIvaL7Kiolmah16910i6hilSzOPjDsrV/y9ZYN6MNv3uI33DzoVENdoOO41KLS/deohG2Os5Vi1rEYRTjiuvh2fr8RQyMjCuaWnsbVdvRoUFE8YdMV9k2uvx5OeR7l2F7Vs8W/X1HT/Xhe91R/NJyFJAJBcE4TGJ4kAlT3IhR2A0gP6PLrDVbvV84SBMUUj8sunAFvGblYLIZDoFopI35OBc9npng/3+gjzUxTtAHQ71TYutTls8j1TvwEUdCUqpLxA5M0beAQegN+y5hqBAhVwpAaXNCPoloGOb7dY2MDO0UJF6qQSVLPXT7vMiBsJmutKfL8obZRgIeQXkqY=
   file_glob: true
   file: '"/var/tmp/ctwrapper/*"'
+  skip_cleanup: true
   on:
     repo: nxadm/ctwrapper
     tags: true
