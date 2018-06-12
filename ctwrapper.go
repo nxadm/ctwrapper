@@ -20,7 +20,6 @@ func main() {
 	/* Read the CLI */
 	config := Config{}
 	exitIfErr(config.importValues())
-	fmt.Printf("%+v\n", config)
 
 	/* Retrieve git project */
 	// Create authentication method only if provided at the CLI
@@ -44,7 +43,6 @@ func main() {
 	/* Look for templates */
 	files, err := findTemplates(config.Dir, config.Ext)
 	exitIfErr(err)
-	fmt.Printf("%+v\n", files)
 
 	/* Interface with consul-template */
 	err = runCt(config.Ext, files, config.CTOptions)
