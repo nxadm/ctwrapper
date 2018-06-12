@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"unicode"
 )
 
 const usage = `ctwrapper, ` + version + `.
@@ -117,7 +118,7 @@ func (config *Config) readCliParams() (error, bool) {
 
 	// Convert ctOpt
 	if ctOpt != "" {
-		config.CTOptions = strings.Split(ctOpt, " ")
+		config.CTOptions = splitArg(ctOpt)
 	}
 
 	// Retrieve Password
@@ -153,6 +154,27 @@ func (config *Config) retrievePassword(user, password, vaultPath, vaultKey strin
 	}
 
 	return err
+}
+
+func splitArg(arg string) []string {
+	lastQuote := rune(0)
+	f := func(c rune) bool {
+		switch {
+		case c == lastQuote:
+			lastQuote = rune(0)
+			return false
+		case lastQuote != rune(0):
+			return false
+		case unicode.In(c, unicode.Quotation_Mark):
+			lastQuote = c
+			return false
+		default:
+			return unicode.IsSpace(c)
+
+		}
+	}
+
+	return strings.FieldsFunc(arg, f)
 }
 
 func (config *Config) verifyParams() error {

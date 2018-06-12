@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -18,4 +19,17 @@ func TestImportValues(t *testing.T) {
 			t.Errorf("Expected a error (%s). None thrown", k)
 		}
 	}
+}
+
+func TestSplitArg(t *testing.T) {
+	givenArgs := []string{
+		`-exec`, `'ls -la'`, `-template`,
+		`"/some/template with spaces:template_no_spaces"`,
+	}
+	arg := strings.Join(givenArgs, " ")
+	args := splitArg(arg)
+	if len(args) != len(givenArgs) {
+		t.Errorf("Incorrect number of args: got %d, expected %d", len(args), len(givenArgs))
+	}
+
 }
