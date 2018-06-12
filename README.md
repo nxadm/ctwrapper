@@ -28,7 +28,7 @@ PATH or in the working directory.
   
 ```
 Usage:
-  vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
+  vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
                 [-u <user>] [-p <password> | -s <vault path/key>]
                 [-d <dir>] [-e <extension>] 
                 [-o <quoted options for consul-template>]  
@@ -37,23 +37,23 @@ Usage:
 
 Parameters:
   -r  | --repo      : Git repo URL.
+  -d  | --dir       : Directory to download the repo.
   -b  | --branch    : Git branch [default: master]
   -c  | --commit    : Git commit [default: HEAD].
   -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
   -s  | --secret    : Vault path (include backend en key to retrieve).
-  -d  | --dir       : Directory with templates [default: . ].
   -e  | --ext       : Template extension [defaul: .tmpl].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.
 
 Examples:
-  $ ctwrapper -d 10 -r https://github.com/nxadm/ctwrapper.git
-  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git \ 
+  $ ctwrapper -g 10 -r https://github.com/nxadm/ctwrapper.git -d /project
+  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \ 
     -s "secret/production/third-party/repo-password"
-  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git \
+  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \
     -o "-vault-addr 'https://10.5.32.5:8200' -exec '/sbin/my-server'"
 ```
 

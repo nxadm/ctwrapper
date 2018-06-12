@@ -15,22 +15,22 @@ See ` + website + ` for more information.
 Author: ` + author + `
 
 Usage:
-  vault-wrapper [-r <URL>] [-b <branch>] [-c <commit>] [-gd  <nr of commits>]
+  vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
                 [-u <user>] [-p <password> | -s <vault path/key>]
-                [-d <dir>] [-e <extension>] 
+                [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
   vault-wrapper [-v]
 
 Parameters:
   -r  | --repo      : Git repo URL.
+  -d  | --dir       : Directory to download the repo.
   -b  | --branch    : Git branch [default: ` + defaultBranch + `]
   -c  | --commit    : Git commit [default: ` + defaultCommit + `].
   -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
   -s  | --secret    : Vault path (include backend en key to retrieve).
-  -d  | --dir       : Directory with templates [default: . ].
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
