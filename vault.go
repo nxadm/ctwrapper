@@ -9,8 +9,8 @@ func retrieveVaultSecret(vaultInfo string) (string, error) {
 
 	// Separate path and key
 	split := strings.SplitAfter(vaultInfo, "/")
-	path := strings.Join(split[0:len(split) - 2], "")
-	key := split[len(split) - 1]
+	path := strings.Join(split[0:len(split)-2], "")
+	key := split[len(split)-1]
 
 	// Retrieve the secret
 	vaultConfig := api.DefaultConfig()
