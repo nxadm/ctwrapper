@@ -51,7 +51,7 @@ Parameters:
 
 Examples:
   ctwrapper -r https://github.com/nxadm/ctwrapper.git
-    ctwrapper -r https://github.com/nxadm/ctwrapper.git \ 
+  ctwrapper -r https://github.com/nxadm/ctwrapper.git \ 
       -vp "secret/production/third-party" -kp "api-key"
   ctwrapper -r https://github.com/nxadm/ctwrapper.git \
         -o "-vault-addr 'https://10.5.32.5:8200' -exec '/sbin/my-server'

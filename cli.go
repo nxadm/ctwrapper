@@ -120,7 +120,6 @@ func (config *Config) readCliParams() (error, bool) {
 		config.CTOptions = strings.Split(ctOpt, " ")
 	}
 
-
 	// Retrieve Password
 	err := config.retrievePassword(user, password, vaultPath, vaultKey)
 	if err != nil {
