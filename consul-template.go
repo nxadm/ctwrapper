@@ -13,7 +13,6 @@ import (
 
 func runCt(tmplExt string, files, options []string) error {
 	ct, err := findConsulTemplate()
-	fmt.Print("CT:" + ct)
 	if err != nil {
 		return err
 	}
