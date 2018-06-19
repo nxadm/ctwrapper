@@ -15,13 +15,13 @@ See ` + website + ` for more information.
 Author: ` + author + `
 
 Usage:
-  vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
-                [-u <user> -p <password>]
-				[-u <user> -a <vault address> -k <vault key>]
-                [-e <extension>] 
-                [-o <quoted options for consul-template>]  
-  vault-wrapper [-h]
-  vault-wrapper [-v]
+  ctwrapper [-r <URL>] [-b <branch>] [-c <commit>] [-g <depth>] [-d <dir>]
+            [-u <user>] [-p <password> | -k <vault path>]
+            [-e <extension>] 
+            [-o <quoted options for consul-template>]  
+  ctwrapper [-h]
+  ctwrapper [-v]
+
 
 Parameters:
   -r  | --repo      : Git repo URL.
@@ -31,8 +31,7 @@ Parameters:
   -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
-  -a  | --vault-addr: Vault address (will be passed to consul-template).
-  -k  | --vault-key:  Vault key (including path).
+  -s  | --vault-path: Vault path to the secret (including the backend).
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
@@ -41,11 +40,11 @@ Parameters:
 
 // Define the flags
 var help, progVersion bool
-var address, branch, commit, ctOpt, dir, ext, key, password, repo, user string
+var branch, commit, ctOpt, dir, ext, password, path, repo, user string
 var depth int
 
 type Config struct {
-	Address, Branch, Commit, Dir, Ext, Repo, Password, User string
+	Address, Branch, Commit, Dir, Ext, Password, Repo, User string
 	CTOptions                                               []string
 	Depth                                                   int
 }
@@ -71,10 +70,8 @@ func init() {
 	flag.StringVar(&user, "user", "", "")
 	flag.StringVar(&password, "p", "", "")
 	flag.StringVar(&password, "password", "", "")
-	flag.StringVar(&address, "a", "", "")
-	flag.StringVar(&address, "address", "", "")
-	flag.StringVar(&key, "k", "", "")
-	flag.StringVar(&key, "key", "", "")
+	flag.StringVar(&path, "s", "", "")
+	flag.StringVar(&path, "vault-path", "", "")
 	flag.StringVar(&ctOpt, "o", "", "")
 	flag.StringVar(&ctOpt, "ct-opt", "", "")
 
@@ -113,7 +110,6 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// importValues the values from CLI switches
-	config.Address = address
 	config.Branch = branch
 	config.Commit = commit
 	config.Dir = dir
@@ -127,7 +123,7 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// Retrieve Password
-	err := config.retrievePassword(user, password, address, key)
+	err := config.retrievePassword(user, password, path)
 	if err != nil {
 		return err, false
 	}
@@ -136,7 +132,7 @@ func (config *Config) readCliParams() (error, bool) {
 	return config.verifyParams(), false
 }
 
-func (config *Config) retrievePassword(user, password, address, key string) error {
+func (config *Config) retrievePassword(user, password, path string) error {
 	switch {
 	// Anonymous
 	case user == "":
@@ -144,8 +140,8 @@ func (config *Config) retrievePassword(user, password, address, key string) erro
 	case password != "":
 		config.Password = password
 	// Password from Vault
-	case address != "" && key != "":
-			secret, err := retrieveVaultSecret(address, key)
+	case path != "":
+			secret, err := retrieveVaultSecret(path)
 		    config.Password = secret
 			if err != nil {
 				return err
