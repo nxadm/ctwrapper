@@ -19,8 +19,10 @@ run the actual application.
 
 HTTP(s) Basic Authentication is supported for retrieving the git repo. The 
 password can be retrieved from Hashicorp's 
-[vault](https://github.com/hashicorp/vault) by using the standard
-VAULT_* environment values. If no authentication is provided, the repo will be 
+[vault](https://github.com/hashicorp/vault) by providing a vault address 
+(--vault-addr) and a key containing the path (--vault-key). The token should
+be provided as the environment variable VAULT_TOKEN that will also be used
+bu consul-template. If no authentication is provided, the repo will be 
 retrieved anonymously.
 
 ctwrapper, being a wrapper for consul-template, expects the latter to be in the
@@ -30,7 +32,7 @@ PATH or in the working directory.
 Usage:
   vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
                 [-u <user> -p <password>]
-                [-u <user> -a <vault address> -s <vault path/key>]
+                [-u <user> -a <vault address> -k <vault key>]
                 [-d <dir>] [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -45,6 +47,7 @@ Parameters:
   -u  | --user      : Git username.
   -p  | --password  : Git password.
   -a  | --vault-addr: Vault address (will be passed to consul-template).
+  -k  | --vault-key:  Vault key (including path).
   -s  | --secret    : Vault path (include backend en key to retrieve).
   -e  | --ext       : Template extension [defaul: .tmpl].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.

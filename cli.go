@@ -17,7 +17,7 @@ Author: ` + author + `
 Usage:
   vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
                 [-u <user> -p <password>]
-				[-u <user> -a <vault address> -s <vault path/key>]
+				[-u <user> -a <vault address> -k <vault key>]
                 [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -32,7 +32,7 @@ Parameters:
   -u  | --user      : Git username.
   -p  | --password  : Git password.
   -a  | --vault-addr: Vault address (will be passed to consul-template).
-  -s  | --secret    : Vault path (backend and key to retrieve).
+  -k  | --vault-key:  Vault key (including path).
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
@@ -41,7 +41,7 @@ Parameters:
 
 // Define the flags
 var help, progVersion bool
-var address, branch, commit, ctOpt, dir, ext, password, repo, secret, user string
+var address, branch, commit, ctOpt, dir, ext, key, password, repo, user string
 var depth int
 
 type Config struct {
@@ -71,10 +71,10 @@ func init() {
 	flag.StringVar(&user, "user", "", "")
 	flag.StringVar(&password, "p", "", "")
 	flag.StringVar(&password, "password", "", "")
-	flag.StringVar(&secret, "a", "", "")
-	flag.StringVar(&secret, "address", "", "")
-	flag.StringVar(&secret, "s", "", "")
-	flag.StringVar(&secret, "secret", "", "")
+	flag.StringVar(&address, "a", "", "")
+	flag.StringVar(&address, "address", "", "")
+	flag.StringVar(&key, "k", "", "")
+	flag.StringVar(&key, "key", "", "")
 	flag.StringVar(&ctOpt, "o", "", "")
 	flag.StringVar(&ctOpt, "ct-opt", "", "")
 
@@ -127,7 +127,7 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// Retrieve Password
-	err := config.retrievePassword(user, password, secret)
+	err := config.retrievePassword(user, password, address, key)
 	if err != nil {
 		return err, false
 	}
@@ -136,8 +136,7 @@ func (config *Config) readCliParams() (error, bool) {
 	return config.verifyParams(), false
 }
 
-func (config *Config) retrievePassword(user, password, secret string) error {
-	var err error
+func (config *Config) retrievePassword(user, password, address, key string) error {
 	switch {
 	// Anonymous
 	case user == "":
@@ -145,19 +144,17 @@ func (config *Config) retrievePassword(user, password, secret string) error {
 	case password != "":
 		config.Password = password
 	// Password from Vault
-	case secret != "":
-		if  address != "" {
-			secretFromVault, err := retrieveVaultSecret(address, secret)
+	case address != "" && key != "":
+			secret, err := retrieveVaultSecret(address, key)
+		    config.Password = secret
 			if err != nil {
 				return err
 			}
-			config.Password = secretFromVault
-		} else {
-			return errors.New("When providing a secret, vault-addr must be provided.")
-		}
+			config.Password = secret
+	default:
+		return errors.New("No password can be retrieved.")
 	}
-
-	return err
+	return nil
 }
 
 func splitArg(arg string) []string {

@@ -5,18 +5,21 @@ import (
 	"strings"
 )
 
-func retrieveVaultSecret(vaultInfo string) (string, error) {
+func retrieveVaultSecret(address, vaultInfo string) (string, error) {
 
 	// Separate path and key
 	split := strings.SplitAfter(vaultInfo, "/")
 	path := strings.Join(split[0:len(split)-2], "")
 	key := split[len(split)-1]
 
-	// Retrieve the secret
+	/* Retrieve VAULT_TOKEN */
 	vaultConfig := api.DefaultConfig()
 	if err := vaultConfig.ReadEnvironment(); err != nil {
 		return "", err
 	}
+	vaultConfig.Address = address
+
+	/* Retrieve the secret */
 	client, err := api.NewClient(vaultConfig)
 	if err != nil {
 		return "", err
@@ -29,6 +32,7 @@ func retrieveVaultSecret(vaultInfo string) (string, error) {
 	for k, v := range secretsRaw.Data {
 		if k == key {
 			secret = v.(string)
+			break
 		}
 	}
 

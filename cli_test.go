@@ -6,10 +6,16 @@ import (
 	"testing"
 )
 
+//import (
+//	"os"
+//	"strings"
+//	"testing"
+//)
+
 func TestImportValues(t *testing.T) {
 	failCli := map[string][]string{
 		"nopass": []string{"ctwrapper", "-r", "foo", "-u", "me"},
-		"nopath": []string{"ctwrapper", "-r", "foo", "-u", "me", "-vk", "secret"},
+		"noaddr": []string{"ctwrapper", "-r", "foo", "-u", "me", "-k", "secret/foo"},
 	}
 	for k, v := range failCli {
 		os.Args = v
@@ -31,5 +37,4 @@ func TestSplitArg(t *testing.T) {
 	if len(args) != len(givenArgs) {
 		t.Errorf("Incorrect number of args: got %d, expected %d", len(args), len(givenArgs))
 	}
-
 }
