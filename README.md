@@ -29,7 +29,8 @@ PATH or in the working directory.
 ```
 Usage:
   vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
-                [-u <user>] [-p <password> | -s <vault path/key>]
+                [-u <user> -p <password>]
+                [-u <user> -a <vault address> -s <vault path/key>]
                 [-d <dir>] [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -43,6 +44,7 @@ Parameters:
   -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
+  -a  | --vault-addr: Vault address (will be passed to consul-template).
   -s  | --secret    : Vault path (include backend en key to retrieve).
   -e  | --ext       : Template extension [defaul: .tmpl].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.

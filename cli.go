@@ -16,7 +16,8 @@ Author: ` + author + `
 
 Usage:
   vault-wrapper [-r <URL>] [-d <dir>] [-b <branch>] [-c <commit>] [-g <depth>]
-                [-u <user>] [-p <password> | -s <vault path/key>]
+                [-u <user> -p <password>]
+				[-u <user> -a <vault address> -s <vault path/key>]
                 [-e <extension>] 
                 [-o <quoted options for consul-template>]  
   vault-wrapper [-h]
@@ -30,7 +31,8 @@ Parameters:
   -g  | --git-depth : Git depth  [default: unlimited].
   -u  | --user      : Git username.
   -p  | --password  : Git password.
-  -s  | --secret    : Vault path (include backend en key to retrieve).
+  -a  | --vault-addr: Vault address (will be passed to consul-template).
+  -s  | --secret    : Vault path (backend and key to retrieve).
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
   -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
@@ -39,13 +41,13 @@ Parameters:
 
 // Define the flags
 var help, progVersion bool
-var repo, branch, commit, dir, ext, user, password, secret, ctOpt string
+var address, branch, commit, ctOpt, dir, ext, password, repo, secret, user string
 var depth int
 
 type Config struct {
-	Repo, Branch, Commit, Dir, Ext, User, Password string
-	CTOptions                                      []string
-	Depth                                          int
+	Address, Branch, Commit, Dir, Ext, Repo, Password, User string
+	CTOptions                                               []string
+	Depth                                                   int
 }
 
 func init() {
@@ -69,6 +71,8 @@ func init() {
 	flag.StringVar(&user, "user", "", "")
 	flag.StringVar(&password, "p", "", "")
 	flag.StringVar(&password, "password", "", "")
+	flag.StringVar(&secret, "a", "", "")
+	flag.StringVar(&secret, "address", "", "")
 	flag.StringVar(&secret, "s", "", "")
 	flag.StringVar(&secret, "secret", "", "")
 	flag.StringVar(&ctOpt, "o", "", "")
@@ -100,7 +104,7 @@ func (config *Config) readCliParams() (error, bool) {
 	case flag.NFlag() == 0:
 		flag.Usage()
 		return errors.New("No parameters supplied."), false
- 	case help == true:
+	case help == true:
 		flag.Usage()
 		return nil, true
 	case progVersion == true:
@@ -109,11 +113,12 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// importValues the values from CLI switches
-	config.Repo = repo
+	config.Address = address
 	config.Branch = branch
 	config.Commit = commit
 	config.Dir = dir
 	config.Ext = ext
+	config.Repo = repo
 	config.User = user
 
 	// Convert ctOpt
@@ -141,11 +146,15 @@ func (config *Config) retrievePassword(user, password, secret string) error {
 		config.Password = password
 	// Password from Vault
 	case secret != "":
-		secretFromVault, err := retrieveVaultSecret(secret)
-		if err != nil {
-			return err
+		if  address != "" {
+			secretFromVault, err := retrieveVaultSecret(address, secret)
+			if err != nil {
+				return err
+			}
+			config.Password = secretFromVault
+		} else {
+			return errors.New("When providing a secret, vault-addr must be provided.")
 		}
-		config.Password = secretFromVault
 	}
 
 	return err
