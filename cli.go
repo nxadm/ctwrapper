@@ -141,12 +141,12 @@ func (config *Config) retrievePassword(user, password, path string) error {
 		config.Password = password
 	// Password from Vault
 	case path != "":
-			secret, err := retrieveVaultSecret(path)
-		    config.Password = secret
-			if err != nil {
-				return err
-			}
-			config.Password = secret
+		secret, err := retrieveVaultSecret(path)
+		config.Password = secret
+		if err != nil {
+			return err
+		}
+		config.Password = secret
 	default:
 		return errors.New("No password can be retrieved.")
 	}
