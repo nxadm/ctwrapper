@@ -59,7 +59,7 @@ Examples:
 ```
 
 You may want to set the depth to a low number (e.g.) in order not to 
-unecessarely retrieve the complete history of the repo. The `--commit` and 
+unnecessarily retrieve the complete history of the repo. The `--commit` and 
 `--git-depth` options were included in order to prevent a race condition 
 between CI systems and git commits. If your setup ensures that the specified
 commit is the last one, you can set `--git-depth` to 1.
