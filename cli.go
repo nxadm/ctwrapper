@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	"flag"
 	"fmt"
+	flag "github.com/spf13/pflag"
 	"os"
 	"strings"
 	"unicode"
@@ -16,7 +16,7 @@ Author: ` + author + `
 
 Usage:
   ctwrapper [-r <URL>] [-b <branch>] [-c <commit>] [-g <depth>] [-d <dir>]
-            [-u <user>] [-p <password> | -k <vault path>]
+            [-u <user>] [-p <password> | -s <vault path>]
             [-e <extension>] 
             [-o <quoted options for consul-template>]  
   ctwrapper [-h]
@@ -38,42 +38,32 @@ Parameters:
   -v  | --version   : Version message.
 `
 
-// Define the flags
+/* Flags */
 var help, progVersion bool
 var branch, commit, ctOpt, dir, ext, password, path, repo, user string
 var depth int
 
+/* Object to hold the parameters */
 type Config struct {
 	Address, Branch, Commit, Dir, Ext, Password, Repo, User string
 	CTOptions                                               []string
 	Depth                                                   int
 }
 
+/* Initialize the flags */
 func init() {
-	flag.BoolVar(&help, "h", false, "")
-	flag.BoolVar(&help, "help", false, "")
-	flag.BoolVar(&progVersion, "v", false, "")
-	flag.BoolVar(&progVersion, "version", false, "")
-	flag.StringVar(&repo, "r", "", "")
-	flag.StringVar(&repo, "repo", "", "")
-	flag.StringVar(&branch, "b", defaultBranch, "")
-	flag.StringVar(&branch, "branch", defaultBranch, "")
-	flag.StringVar(&commit, "c", defaultCommit, "")
-	flag.StringVar(&commit, "commit", defaultCommit, "")
-	flag.IntVar(&depth, "g", defaultDepth, "")
-	flag.IntVar(&depth, "git-depth", defaultDepth, "")
-	flag.StringVar(&dir, "d", "", "")
-	flag.StringVar(&dir, "dir", "", "")
-	flag.StringVar(&ext, "e", defaultExt, "")
-	flag.StringVar(&ext, "ext", defaultExt, "")
-	flag.StringVar(&user, "u", "", "")
-	flag.StringVar(&user, "user", "", "")
-	flag.StringVar(&password, "p", "", "")
-	flag.StringVar(&password, "password", "", "")
-	flag.StringVar(&path, "s", "", "")
-	flag.StringVar(&path, "vault-path", "", "")
-	flag.StringVar(&ctOpt, "o", "", "")
-	flag.StringVar(&ctOpt, "ct-opt", "", "")
+	flag.BoolVarP(&help, "help", "h", false, "")
+	flag.BoolVarP(&progVersion, "version", "v", false, "")
+	flag.StringVarP(&repo, "repo", "r", "", "")
+	flag.StringVarP(&branch, "branch", "b", defaultBranch, "")
+	flag.StringVarP(&commit, "commit", "c", defaultCommit, "")
+	flag.IntVarP(&depth, "git-depth", "g", defaultDepth, "")
+	flag.StringVarP(&dir, "dir", "d", "", "")
+	flag.StringVarP(&ext, "ext", "e", defaultExt, "")
+	flag.StringVarP(&user, "user", "u", "", "")
+	flag.StringVarP(&password, "password", "p", "", "")
+	flag.StringVarP(&path, "vault-path", "s", "", "")
+	flag.StringVarP(&ctOpt, "ct-opt", "o", "", "")
 
 	// Set a custom usage message
 	flag.Usage = func() { fmt.Println(usage) }
@@ -148,7 +138,7 @@ func (config *Config) retrievePassword(user, password, path string) error {
 		}
 		config.Password = secret
 	default:
-		return errors.New("No password can be retrieved.")
+		return errors.New("Password can not be retrieved.")
 	}
 	return nil
 }

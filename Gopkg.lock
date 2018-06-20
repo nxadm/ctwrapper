@@ -127,6 +127,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
+  version = "v1.0.1"
+
+[[projects]]
   name = "github.com/src-d/gcfg"
   packages = [
     ".",
@@ -164,7 +170,7 @@
     "ssh/agent",
     "ssh/knownhosts"
   ]
-  revision = "027cca12c2d63e3d62b670d901e8a2c95854feec"
+  revision = "7f39a6fea4fe9364fb61e1def6a268a51b4f3a06"
 
 [[projects]]
   branch = "master"
@@ -182,7 +188,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["windows"]
-  revision = "6c888cc515d3ed83fc103cf1d84468aad274b0a7"
+  revision = "fc8bd948cf46f9c7af0f07d34151ce25fe90e477"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -279,6 +285,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "2d9611eb41c06f00793454d5eb745ecf073cada61d6133177a94e172b5db7f30"
+  inputs-digest = "e7182a120f744ed5cf069c4a3ae873de3eaa039b62fa76e9eeed4300757bf47e"
   solver-name = "gps-cdcl"
   solver-version = 1

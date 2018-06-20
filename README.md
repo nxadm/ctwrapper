@@ -30,7 +30,7 @@ PATH or in the working directory.
 ```
 Usage:
   ctwrapper [-r <URL>] [-b <branch>] [-c <commit>] [-g <depth>] [-d <dir>]
-            [-u <user>] [-p <password> | -k <vault path>]
+            [-u <user>] [-p <password> | -s <vault path>]
             [-e <extension>] 
             [-o <quoted options for consul-template>]  
   ctwrapper [-h]
