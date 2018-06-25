@@ -37,8 +37,8 @@ func createTmplArg(files []string, tmplExt string) []string {
 	tmplArgs := []string{}
 	for _, tmpl := range files {
 		file := strings.TrimSuffix(tmpl, tmplExt)
-		tmplArgs = append(tmplArgs, "\"" + "-template")
-		tmplArgs = append(tmplArgs, tmpl+":"+file + "\"")
+		tmplArgs = append(tmplArgs, "-template")
+		tmplArgs = append(tmplArgs, tmpl+":"+file)
 	}
 	return tmplArgs
 }
