@@ -8,7 +8,7 @@ import (
 )
 
 const author = "Claudio Ramirez <pub.claudio@gmail.com>"
-const version = "v0.3.3"
+const version = "v0.3.4"
 const website = "https://github.com/nxadm/ctwrapper"
 const defaultExt = ".tmpl"
 const defaultBranch = "master"

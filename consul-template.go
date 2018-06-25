@@ -27,7 +27,7 @@ func runCt(tmplExt string, files, options []string) error {
 	case runtime.GOOS == "windows":
 		return runWhilePrinting(exec.Command(ct, args...))
 	default:
-		return syscall.Exec(ct, append(args, ct), os.Environ())
+		return syscall.Exec(ct, append([]string{ct}, args...), os.Environ())
 	}
 
 	return nil
