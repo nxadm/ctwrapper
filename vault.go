@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/hashicorp/vault/api"
 	"github.com/headzoo/surf/errors"
 	"strings"
