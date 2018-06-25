@@ -85,6 +85,12 @@
   version = "v0.10.2"
 
 [[projects]]
+  name = "github.com/headzoo/surf"
+  packages = ["errors"]
+  revision = "60198774ccce43e1d26c80e961497b7d262460b3"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/jbenet/go-context"
   packages = ["io"]
@@ -285,6 +291,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e7182a120f744ed5cf069c4a3ae873de3eaa039b62fa76e9eeed4300757bf47e"
+  inputs-digest = "63058e021893e5186209fce0bcf7ad06b71d7feb19793b96f533f7ca26369f14"
   solver-name = "gps-cdcl"
   solver-version = 1

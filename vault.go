@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hashicorp/vault/api"
+	"github.com/headzoo/surf/errors"
 	"strings"
 )
 
@@ -9,7 +11,7 @@ func retrieveVaultSecret(path string) (string, error) {
 
 	// Separate path and key
 	split := strings.SplitAfter(path, "/")
-	backendAndPath := strings.Join(split[0:len(split)-2], "")
+	backendAndPath := strings.Join(split[0:len(split)-1], "")
 	key := split[len(split)-1]
 
 	/* Retrieve VAULT_ADDR, VAULT_TOKEN and other VAULT_* env variables */
@@ -27,6 +29,10 @@ func retrieveVaultSecret(path string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if secretsRaw == nil {
+		return "", errors.New("Can not find the requested secret.")
+	}
+
 	var secret string
 	for k, v := range secretsRaw.Data {
 		if k == key {
