@@ -45,7 +45,7 @@ func main() {
 	exitIfErr(err)
 
 	/* Interface with consul-template */
-	err = runCt(config.Ext, files, config.CTOptions)
+	err = runCt(config.Ext, files, config.CtParams)
 	exitIfErr(err)
 }
 

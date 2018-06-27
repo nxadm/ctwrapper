@@ -11,14 +11,14 @@ import (
 	"syscall"
 )
 
-func runCt(tmplExt string, files, options []string) error {
+func runCt(tmplExt string, files, ctParams []string) error {
 	ct, err := findConsulTemplate()
 	if err != nil {
 		return err
 	}
 
 	args := createTmplArg(files, tmplExt)
-	args = append(args, options...)
+	args = append(args, ctParams...)
 	fmt.Printf("Executing: %s %s\n", ct, strings.Join(args, " "))
 
 	/* Execute the command */

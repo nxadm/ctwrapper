@@ -5,8 +5,6 @@ import (
 	"fmt"
 	flag "github.com/spf13/pflag"
 	"os"
-	"strings"
-	"unicode"
 )
 
 const usage = `ctwrapper, ` + version + `.
@@ -18,7 +16,7 @@ Usage:
   ctwrapper [-r <URL>] [-b <branch>] [-c <commit>] [-g <depth>] [-d <dir>]
             [-u <user>] [-p <password> | -s <vault path>]
             [-e <extension>] 
-            [-o <quoted options for consul-template>]  
+            [-- <extra consul-template parameters>] 
   ctwrapper [-h]
   ctwrapper [-v]
 
@@ -33,20 +31,21 @@ Parameters:
   -p  | --password  : Git password.
   -s  | --vault-path: Vault path to the secret (including the backend).
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
-  -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
+  -o  | --ct-opt    : Quoted paramters to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.
+  --                 : Extra consul-template parameters, e.g. -exec.  
 `
 
 /* Flags */
 var help, progVersion bool
-var branch, commit, ctOpt, dir, ext, password, path, repo, user string
+var branch, commit, dir, ext, password, path, repo, user string
 var depth int
 
 /* Object to hold the parameters */
 type Config struct {
 	Address, Branch, Commit, Dir, Ext, Password, Repo, User string
-	CTOptions                                               []string
+	CtParams                                                []string
 	Depth                                                   int
 }
 
@@ -63,7 +62,6 @@ func init() {
 	flag.StringVarP(&user, "user", "u", "", "")
 	flag.StringVarP(&password, "password", "p", "", "")
 	flag.StringVarP(&path, "vault-path", "s", "", "")
-	flag.StringVarP(&ctOpt, "ct-opt", "o", "", "")
 
 	// Set a custom usage message
 	flag.Usage = func() { fmt.Println(usage) }
@@ -106,11 +104,7 @@ func (config *Config) readCliParams() (error, bool) {
 	config.Ext = ext
 	config.Repo = repo
 	config.User = user
-
-	// Convert ctOpt
-	if ctOpt != "" {
-		config.CTOptions = splitArg(ctOpt)
-	}
+	config.CtParams = flag.Args()
 
 	// Retrieve Password
 	err := config.retrievePassword(user, password, path)
@@ -141,27 +135,6 @@ func (config *Config) retrievePassword(user, password, path string) error {
 		return errors.New("Password can not be retrieved.")
 	}
 	return nil
-}
-
-func splitArg(arg string) []string {
-	lastQuote := rune(0)
-	f := func(c rune) bool {
-		switch {
-		case c == lastQuote:
-			lastQuote = rune(0)
-			return false
-		case lastQuote != rune(0):
-			return false
-		case unicode.In(c, unicode.Quotation_Mark):
-			lastQuote = c
-			return false
-		default:
-			return unicode.IsSpace(c)
-
-		}
-	}
-
-	return strings.FieldsFunc(arg, f)
 }
 
 func (config *Config) verifyParams() error {

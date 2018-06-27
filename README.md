@@ -32,7 +32,7 @@ Usage:
   ctwrapper [-r <URL>] [-b <branch>] [-c <commit>] [-g <depth>] [-d <dir>]
             [-u <user>] [-p <password> | -s <vault path>]
             [-e <extension>] 
-            [-o <quoted options for consul-template>]  
+            [-- <extra consul-template parameters>] 
   ctwrapper [-h]
   ctwrapper [-v]
 
@@ -46,16 +46,16 @@ Parameters:
   -p  | --password  : Git password.
   -s  | --vault-path: Vault path to the secret (including the backend).
   -e  | --ext       : Template extension [defaul: .tmpl].
-  -o  | --ct-opt    : Extra (quoted) options to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.
+  -- 				: Extra consul-template parameters, e.g. -exec.  
 
 Examples:
   $ ctwrapper -g 10 -r https://github.com/nxadm/ctwrapper.git -d /project
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \ 
     -s "secret/production/third-party/repo-password"
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \
-    -o "-vault-addr 'https://10.5.32.5:8200' -exec '/sbin/my-server'"
+    -- -o -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server
 ```
 
 You may want to set the depth to a low number (e.g.) in order not to 
@@ -63,3 +63,5 @@ unnecessarily retrieve the complete history of the repo. The `--commit` and
 `--git-depth` options were included in order to prevent a race condition 
 between CI systems and git commits. If your setup ensures that the specified
 commit is the last one, you can set `--git-depth` to 1.
+
+Everything after `--` is directly passed as-is to consul-template.
