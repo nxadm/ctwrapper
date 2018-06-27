@@ -48,7 +48,7 @@ Parameters:
   -e  | --ext       : Template extension [defaul: .tmpl].
   -h  | --help      : This help message.
   -v  | --version   : Version message.
-  -- 				: Extra consul-template parameters, e.g. -exec.  
+  --                : Extra consul-template parameters, e.g. -exec.  
 
 Examples:
   $ ctwrapper -g 10 -r https://github.com/nxadm/ctwrapper.git -d /project
