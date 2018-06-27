@@ -55,7 +55,7 @@ Examples:
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \ 
     -s "secret/production/third-party/repo-password"
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /project \
-    -- -o -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server
+    -- -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server
 ```
 
 You may want to set the depth to a low number (e.g.) in order not to 
