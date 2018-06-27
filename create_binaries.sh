@@ -5,6 +5,7 @@ BIN_DIR=/var/tmp/$APP
 BASE_NAME="$BIN_DIR/$APP"
 PLATFORMS=("windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/amd64" "linux/386")
 SRC_DIR=$(pwd)
+BUILD_CMD="go build -a -installsuffix cgo -ldflags -s"
 
 function build {
     GOOS=$1
@@ -13,7 +14,7 @@ function build {
     if [ $GOOS = "windows" ]; then
         OUTPUT+='.exe'
     fi
-    GOOS=$GOOS GOARCH=$GOARCH go build -o $OUTPUT
+    GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 $BUILD_CMD -o $OUTPUT
     cd $BIN_DIR
     sha512sum $OUTPUT > $OUTPUT.sha512
     cd $SRC_DIR
