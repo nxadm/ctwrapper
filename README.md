@@ -20,7 +20,7 @@ run the actual application.
 HTTP(s) Basic Authentication is supported for retrieving the git repo. The 
 password can be retrieved from Hashicorp's 
 [vault](https://github.com/hashicorp/vault) by providing the appropiate `VAULT_*`
-[environment variables](https://www.vaultproject.io/docs/commands/index.html#environment-variables) vault address 
+[environment variables](https://www.vaultproject.io/docs/commands/index.html#environment-variables) 
 (at least VAULT_ADDR and VAULT_TOKEN) and a path to the secret (--vault-path).
 If no authentication is provided, the repo will be retrieved anonymously.
 
@@ -64,4 +64,6 @@ unnecessarily retrieve the complete history of the repo. The `--commit` and
 between CI systems and git commits. If your setup ensures that the specified
 commit is the last one, you can set `--git-depth` to 1.
 
-Everything after `--` is directly passed as-is to consul-template.
+Everything after `--` is directly passed as-is to consul-template. In the most
+cases you'll pass an `-exec` command to consul-template to start your
+application this way.
