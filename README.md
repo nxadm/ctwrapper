@@ -72,6 +72,6 @@ application this way.
 
 The creation of binaries found on the 
 [releases tab](https://github.com/nxadm/ctwrapper/releases) is completely
-automated by Travis CI. The sha512 checkums files can be verified with the 
-output of the 
+automated by Travis CI and created from version tag in the repo. The 
+sha512 checkums files can be verified with the output of the 
 [Travis build](https://travis-ci.com/nxadm/ctwrapper.svg?token=3PQd6zsu83EBNA2LAEeq&branch=master).
