@@ -17,6 +17,7 @@ function build {
     GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 $BUILD_CMD -o $OUTPUT
     cd $BIN_DIR
     sha512sum $OUTPUT > $OUTPUT.sha512
+    cat $OUTPUT.sha512
     cd $SRC_DIR
 }
 
