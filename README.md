@@ -67,3 +67,11 @@ commit is the last one, you can set `--git-depth` to 1.
 Everything after `--` is directly passed as-is to consul-template. In the most
 cases you'll pass an `-exec` command to consul-template to start your
 application this way.
+
+## Releases
+
+The creation of binaries found on the 
+[releases tab](https://github.com/nxadm/ctwrapper/releases) is completely
+automated by Travis CI. The sha512 checkums files can be verified with the 
+output of the 
+[Travis build](https://travis-ci.com/nxadm/ctwrapper.svg?token=3PQd6zsu83EBNA2LAEeq&branch=master).
