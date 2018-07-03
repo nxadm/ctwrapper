@@ -77,18 +77,13 @@
   packages = [
     "api",
     "helper/compressutil",
+    "helper/hclutil",
     "helper/jsonutil",
     "helper/parseutil",
     "helper/strutil"
   ]
-  revision = "3ee0802ed08cb7f4046c2151ec4671a076b76166"
-  version = "v0.10.2"
-
-[[projects]]
-  name = "github.com/headzoo/surf"
-  packages = ["errors"]
-  revision = "60198774ccce43e1d26c80e961497b7d262460b3"
-  version = "v1.0.0"
+  revision = "533003e27840d9646cb4e7d23b3a113895da1dd0"
+  version = "v0.10.3"
 
 [[projects]]
   branch = "master"
@@ -176,7 +171,7 @@
     "ssh/agent",
     "ssh/knownhosts"
   ]
-  revision = "7f39a6fea4fe9364fb61e1def6a268a51b4f3a06"
+  revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
 
 [[projects]]
   branch = "master"
@@ -188,13 +183,13 @@
     "http2/hpack",
     "idna"
   ]
-  revision = "db08ff08e8622530d9ed3a0e8ac279f6d4c02196"
+  revision = "ed29d75add3d7c4bf7ca65aac0c6df3d1420216f"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["windows"]
-  revision = "fc8bd948cf46f9c7af0f07d34151ce25fe90e477"
+  revision = "7138fd3d9dc8335c567ca206f4333fb75eb05d56"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -232,8 +227,8 @@
     "osfs",
     "util"
   ]
-  revision = "df053870ae7070b0350624ba5a22161ba3796cc0"
-  version = "v4.1.1"
+  revision = "83cf655d40b15b427014d7875d10850f96edba14"
+  version = "v4.2.0"
 
 [[projects]]
   name = "gopkg.in/src-d/go-git.v4"
@@ -291,6 +286,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "63058e021893e5186209fce0bcf7ad06b71d7feb19793b96f533f7ca26369f14"
+  inputs-digest = "e7182a120f744ed5cf069c4a3ae873de3eaa039b62fa76e9eeed4300757bf47e"
   solver-name = "gps-cdcl"
   solver-version = 1

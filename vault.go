@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/vault/api"
-	"github.com/headzoo/surf/errors"
+	"errors"
 	"strings"
 )
 
