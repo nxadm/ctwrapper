@@ -53,7 +53,7 @@ Examples:
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /var/tmp/project \           
     -s "secret/production/third-party/repo-password"                            
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -u foo -p bar \           
-    -d /project	 -- -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server          
+    -d /project	-- -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server          
 
 `
 
