@@ -31,10 +31,13 @@ Parameters:
   -p  | --password  : Git password.
   -s  | --vault-path: Vault path to the secret (including the backend).
   -e  | --ext       : Template extension [defaul: ` + defaultExt + `].
-  -o  | --ct-opt    : Quoted paramters to pass to consul-template.
   -h  | --help      : This help message.
   -v  | --version   : Version message.
-  --                : Extra consul-template parameters, e.g. -exec.  
+  --                : Extra consul-template parameters, e.g. -exec.
+
+All the parameters can be passed as environment variables by using
+the full parameter name in capitals without '-':
+REPO, DIR, BRANCH, COMMIT, GITDEPTH, USER, PASSWORD, VAULTPATH, EXT, CTOPT.
 `
 
 /* Flags */
