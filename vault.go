@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/hashicorp/vault/api"
 	"errors"
+	"github.com/hashicorp/vault/api"
 	"strings"
 )
 
 func retrieveVaultSecret(path string) (string, error) {
 
-	// Separate path and key
+	// Separate vaultPath and key
 	split := strings.SplitAfter(path, "/")
 	backendAndPath := strings.Join(split[0:len(split)-1], "")
 	key := split[len(split)-1]
@@ -29,7 +29,7 @@ func retrieveVaultSecret(path string) (string, error) {
 		return "", err
 	}
 	if secretsRaw == nil {
-		return "", errors.New("Can not find the requested secret.")
+		return "", errors.New("can not find the requested secret")
 	}
 
 	var secret string

@@ -8,12 +8,13 @@ import (
 )
 
 const author = "Claudio Ramirez <pub.claudio@gmail.com>"
-const version = "v0.4.2"
+const version = "v0.5.0"
 const website = "https://github.com/nxadm/ctwrapper"
 const defaultExt = ".tmpl"
 const defaultBranch = "master"
 const defaultCommit = "HEAD"
-const defaultDepth = 0 // disable
+const defaultGitDepth = 0 // disable
+const defaultCloneDir = "/project"
 
 func main() {
 
@@ -24,9 +25,9 @@ func main() {
 	/* Retrieve git project */
 	// Create authentication method only if provided at the CLI
 	var authMethod transport.AuthMethod
-	if config.User != "" {
+	if config.GitUser != "" {
 		authMethod = transport.AuthMethod(&http.BasicAuth{
-			Username: config.User, Password: config.Password})
+			Username: config.GitUser, Password: config.GitPassword})
 	}
 
 	// clone the repo and go to the specified commit
@@ -34,7 +35,7 @@ func main() {
 		URL:    config.Repo,
 		Branch: config.Branch,
 		Commit: config.Commit,
-		Depth:  config.Depth,
+		Depth:  config.GitDepth,
 		Dir:    config.Dir,
 		Auth:   authMethod,
 	}
