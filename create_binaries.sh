@@ -3,7 +3,7 @@ set -xv
 APP=ctwrapper
 BIN_DIR=/var/tmp/$APP
 BASE_NAME="$BIN_DIR/$APP"
-PLATFORMS=("windows/amd64" "windows/386" "darwin/amd64" "darwin/386" "linux/amd64" "linux/386")
+PLATFORMS=("windows/amd64" "darwin/amd64" "linux/amd64")
 SRC_DIR=$(pwd)
 BUILD_CMD="go build -a -installsuffix cgo -ldflags -s"
 
