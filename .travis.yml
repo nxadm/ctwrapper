@@ -15,4 +15,4 @@ deploy:
     tags: true
     branches:
       only:
-      - /^v20\d{2}\.\d{2}(\.\d+)?-\d+$/
+      - /^v\d+\.\d+\.\d+$/
