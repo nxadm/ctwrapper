@@ -35,7 +35,7 @@ Parameters:
   -e  | --ext                 : Template extension [defaul: ` + defaultExt + `].
   -h  | --help                : This help message.
   -v  | --version             : Version message.
-  --                          : Extra consul-template parameters, e.g. -exec.
+  --                          : Separator for extra consul-template parameters, e.g. -exec.
 
 Besides the default values when applicable, all the parameters can be 
 passed as environment variables by using the full parameter name in capitals
