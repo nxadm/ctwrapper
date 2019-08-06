@@ -169,7 +169,7 @@ func (config *Config) readCliParams() (error, bool) {
 	}
 
 	// Verify the parameters
-	fmt.Printf("%#v\n", config)
+	//fmt.Printf("%#v\n", config)
 	return config.verifyParams(), false
 }
 
