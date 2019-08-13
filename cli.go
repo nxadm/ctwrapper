@@ -35,7 +35,8 @@ Parameters:
   -e  | --ext                 : Template extension [defaul: ` + defaultExt + `].
   -h  | --help                : This help message.
   -v  | --version             : Version message.
-  --                          : Separator for extra consul-template parameters, e.g. -exec.
+  --                          : Separator for extra consul-template
+                                parameters, e.g. -exec.
 
 Besides the default values when applicable, all the parameters can be 
 passed as environment variables by using the full parameter name in capitals
@@ -45,8 +46,9 @@ REPO, DIR, BRANCH, COMMIT, GITDEPTH, GITUSER, GITPASSWORD, VAULTPATH, EXT.
 When both command line parameters and environment variables are defined,
 the first type take precedence.
 
-For the Vault parameters used in templates, these are retrieved from
-environment values like VAULT_ADDR, VAULT_TOKEN and other VAULT_* variables).
+For the Consult and Vault parameters used in templates, these are retrieved 
+from environment values like CONSUL_ADDR, VAULT_ADDR, VAULT_TOKEN and other 
+CONSUL_* and VAULT_* variables).
 
 Examples:                                                                       
   $ ctwrapper -r git@github.com:nxadm/ctwrapper.git       
@@ -59,7 +61,7 @@ Examples:
 
 /* Flags */
 var help, progVersion bool
-var branch, commit, dir, ext, gitPassword, vaultPath, repo, gitUser string
+var branch, commit, dir, ext, gitPassword, gitUser, repo, vaultPath  string
 var gitDepth int
 var envValues = make(map[string]*string)
 
@@ -141,9 +143,9 @@ func (config *Config) importValues() error {
 func (config *Config) readCliParams() (error, bool) {
 	// Handle early exits
 	switch {
-	case flag.NFlag() == 0:
-		flag.Usage()
-		return errors.New("no parameters supplied"), false
+	//case flag.NFlag() == 0:
+	//	flag.Usage()
+	//	return errors.New("no parameters supplied"), false
 	case help == true:
 		flag.Usage()
 		return nil, true
