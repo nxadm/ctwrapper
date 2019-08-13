@@ -200,6 +200,7 @@ func (config *Config) verifyParams() error {
 	nonEmpty := map[string]string{
 		"repo": config.Repo,
 	}
+
 	for k, v := range nonEmpty {
 		if v == "" {
 			return errors.New(k + " is required")
