@@ -72,8 +72,9 @@ the first type take precedence.
 For the Vault parameters used in templates, these are retrieved from
 environment values like VAULT_ADDR, VAULT_TOKEN and other VAULT_* variables).
 
-Examples:                                                                       
-  $ ctwrapper -r git@github.com:nxadm/ctwrapper.git       
+Examples:
+  $ ctwrapper -- "echo lala"                                                                       
+  $ ctwrapper -r git@github.com:nxadm/ctwrapper.git      
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /var/tmp/project \           
     -s "secret/production/third-party/repo-password"                            
   $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -u foo -p bar \           
@@ -88,7 +89,7 @@ commit is the last one, you can set `--git-depth` to 1.
 
 Everything after `--` is directly passed as-is to consul-template. In the most
 cases you'll pass an `-exec` command to consul-template to start your
-application this way.
+application this way (quote the command).
 
 ## Releases
 
