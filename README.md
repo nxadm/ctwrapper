@@ -2,37 +2,42 @@
 [![Build Status](https://travis-ci.com/nxadm/ctwrapper.svg?token=3PQd6zsu83EBNA2LAEeq&branch=master)](https://travis-ci.com/nxadm/ctwrapper)
 
 ctwrapper is a small git wrapper to interface with Hashicorp's
-[consul-template](https://github.com/hashicorp/consul-template). The use case 
+[consul-template](https://github.com/hashicorp/consul-template). The use case
 for this tool is providing remote configuration and secrets to containers that
-require a complex configuration. Many orchestrators and tools, like 
-Hashicorp's [nomad](https://github.com/hashicorp/nomad), only provide 
-mechanisms to provision containers with simple 1-file configuration 
+require a complex configuration. Many orchestrators and tools, like
+Hashicorp's [nomad](https://github.com/hashicorp/nomad), only provide
+mechanisms to provision containers with simple 1-file configuration
 requirements, e.g. by the
 [template stanza](https://www.nomadproject.io/docs/job-specification/template.html).
 
 As an alternative, ctwrapper retrieves a git repository with static files and
-templates. Templates are passed as arguments to consul-template in order to 
-let consul-template run them and, by example, inject secrets from Vault. 
-Options can be passed to consul-template, e.g. "-exec" to run the actual 
-application.
+templates. Templates are passed as arguments to consul-template in order to
+let consul-template run them and, by example, inject secrets from Vault.
+Options can be passed to consul-template after "--", e.g. "-exec" to run the
+actual application. In order to disable Vault support (e.g. when you inject
+secret by environment variables), pass the "-vault-renew-token=false" option
+to consul-template.
 
 In order to use the
-[consul](https://github.com/hashicorp/consul) and    
-[vault](https://github.com/hashicorp/vault) backends you need to define the necessary
-environment variables (like VAULT_ADDR, VAULT_TOKEN and/or CONSUL_TOKEN) or pass the
-'-consul-addr' and/or '-vault-addr' options to consul-template (as passthrough 
-after the '--'). Consult the 
-[consul-template documentation](https://github.com/hashicorp/consul-template) 
+[consul](https://github.com/hashicorp/consul) and
+[vault](https://github.com/hashicorp/vault) backends you need to define the
+necessary environment variables (like VAULT_ADDR, VAULT_TOKEN and/or
+CONSUL_TOKEN) or pass the '-consul-addr' and/or '-vault-addr' options to
+consul-template (as passthrough after the '--'). Consult the
+[consul-template documentation](https://github.com/hashicorp/consul-template)
 for the parameters for consul-template.
 
-Anonymous and authenticated git cloning is supported through SSH and HTTP(s). 
-Next to SSH (where the authentication is done by an SSH agent), HTTP(S) Basic 
+Anonymous and authenticated git cloning is supported through SSH and HTTP(s).
+Next to SSH (where the authentication is done by an SSH agent), HTTP(S) Basic
 Authentication can use the username/password combination supplied on the command
-line or retrieve the password from Vault. If no authentication is provided, 
+line or retrieve the password from Vault. If no authentication is provided,
 the repo will be retrieved anonymously.
 
 ctwrapper, being a wrapper for consul-template, expects the latter to be in the
-PATH or in the working directory.
+PATH or in the working directory. When run from a Docker container, use
+[the exec variant of ENTRYPOINT and not the shell variant](https://docs.docker.com/engine/reference/builder/#entrypoint).
+This allows ctwrapper to to preserve the signals received by the container and
+pass it to consul-template and your application.
 
 ## Usage
 
@@ -73,11 +78,11 @@ For the Vault parameters used in templates, these are retrieved from
 environment values like VAULT_ADDR, VAULT_TOKEN and other VAULT_* variables).
 
 Examples:
-  $ ctwrapper -- "echo lala"                                                                       
-  $ ctwrapper -r git@github.com:nxadm/ctwrapper.git      
-  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /var/tmp/project \           
-    -s "secret/production/third-party/repo-password"                            
-  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -u foo -p bar \           
+  $ ctwrapper -- "echo lala"
+  $ ctwrapper -r git@github.com:nxadm/ctwrapper.git
+  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -d /var/tmp/project \
+    -s "secret/production/third-party/repo-password"
+  $ ctwrapper -r https://github.com/nxadm/ctwrapper.git -u foo -p bar \
     -d /project -- -vault-addr 'https://10.5.32.5:8200 -exec /sbin/my-server
 ```
 
