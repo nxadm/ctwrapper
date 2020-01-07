@@ -1,5 +1,5 @@
 # ctwrapper
-[![Build Status](https://travis-ci.com/nxadm/ctwrapper.svg?token=3PQd6zsu83EBNA2LAEeq&branch=master)](https://travis-ci.com/nxadm/ctwrapper)
+[![Build Status](https://travis-ci.com/nxadm/ctwrapper.svg?branch=master)](https://travis-ci.com/nxadm/ctwrapper)
 
 ctwrapper is a small git wrapper to interface with Hashicorp's
 [consul-template](https://github.com/hashicorp/consul-template). The use case
